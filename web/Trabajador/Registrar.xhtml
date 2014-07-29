@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+   <body>
+
+      <ui:composition template="./../layout/layoutTemplate.xhtml">
+
+         <ui:define name="top">
+
+         </ui:define>
+
+
+
+         <ui:define name="content">
+            <h:form id="frmRegistro" style="margin-left: 20px">  
+
+               <p:growl id="msgs" showDetail="true" />  
+
+               <p:panel id="PanelRegistro" header="Registra nuevo trabajador" style="width:650px;height:200px;"> 
+
+                  <p:focus context="PanelRegistro" />
+
+                  <h:panelGrid columns="3" id="grid" >  
+                     <h:outputLabel for="nombre" value="Nombre : *" />
+                     <p:inputText id="nombre" value="#{EmpBean.empleado.nombre}" required="true"/>
+                     <h:outputLabel />
+
+                     <h:outputLabel value="Apellido : *" />
+                     <p:inputText id="apllido" value="#{EmpBean.empleado.apellido}" required="true"/>
+                     <h:outputLabel />
+
+                     <h:outputLabel  for="sexo" value="Genero:" />
+                     <p:selectOneRadio id="sexo" value="#{EmpBean.empleado.sexo}" required="true">
+                        <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                        <f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+                     </p:selectOneRadio>
+                     <h:outputLabel />
+
+                     <h:outputLabel for="tipoempleado" value="Tipo Trabajador: *" />
+                     <p:selectOneMenu id="tipoempleado" value="#{EmpBean.empleado.tipoTrabajador}">
+                        <f:selectItem itemLabel="Seleccione" itemValue="" />
+                        <f:selectItem itemLabel="Administrativo" itemValue="Administrativo" />
+                        <f:selectItem itemLabel="Supervisor" itemValue="Supervisor" />
+                        <f:selectItem itemLabel="Obrero" itemValue="Obrero" />
+                     </p:selectOneMenu>
+                     <h:outputLabel />
+
+                     <h:outputLabel for="Float" value="Sueldo Costo por hora" />
+                     <p:inputText id="Float" value="#{EmpBean.empleado.salario}" validatorMessage="Tiene que se numero">
+                        <p:ajax update="msgFloat" event="keyup" />
+                     </p:inputText>
+                     <p:message for="Float" id="msgFloat" display="icon" />
+
+                  </h:panelGrid>  
+               </p:panel>  
+               <p:spotlight target="PanelRegistro" widgetVar="spot"/>
+
+               <p:commandButton id="Añadir"
+                                update="@parent:empleadosTable msgs PanelRegistro" 
+                                actionListener="#{EmpBean.setEmpleado(EmpBean.empleado)}" 
+                                value="Añadir"
+                                icon="ui-icon-check"
+                                />
+
+
+               <p:separator />
+               <p:outputPanel id="empleados">  
+                  <p:dataTable  id="empleadosTable" value="#{EmpBean.empleados}" var="empleado" >  
+
+                     <p:column>  
+                        <f:facet  name="header">  
+                           <h:outputText value="Nombre" />  
+                        </f:facet>  
+                        <h:outputText value="#{empleado.nombre}" />  
+                     </p:column>  
+
+                     <p:column>  
+                        <f:facet name="header">  
+                           <h:outputText value="Apellido" />  
+                        </f:facet>  
+                        <h:outputText value="#{empleado.apellido}" />  
+                     </p:column> 
+
+                     <p:column>  
+                        <f:facet name="header">  
+                           <h:outputText value="Genero" />  
+                        </f:facet>  
+                        <h:outputText value="#{empleado.sexo}" />  
+                     </p:column> 
+
+                     <p:column>  
+                        <f:facet name="header">  
+                           <h:outputText value="Puesto" />  
+                        </f:facet>  
+                        <h:outputText value="#{empleado.tipoTrabajador}" />  
+                     </p:column> 
+
+                     <p:column>  
+                        <f:facet name="header">  
+                           <h:outputText value="Sueldo por hora" />  
+                        </f:facet>  
+                        <h:outputText value="#{empleado.salario}" />  
+                     </p:column> 
+                  </p:dataTable>  
+               </p:outputPanel>  
+            </h:form>
+         </ui:define>
+
+      </ui:composition>
+
+   </body>
+</html>

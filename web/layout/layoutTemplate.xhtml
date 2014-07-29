@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+   <h:head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <h:outputStylesheet name="./css/default.css"/>
+      <h:outputStylesheet name="./css/cssLayout.css"/>
+      <title>Facelets Template</title>
+   </h:head>
+
+   <h:body>
+
+      <div id="top">
+         <ui:insert name="top">Top</ui:insert>
+         <h:form>
+            <p:megaMenu style="margin-left: 150px; margin-right: 150px">
+               <p:menuitem value="Inicio" outcome="/index"/>
+               <p:submenu label="Trabajador">
+                  <p:column>
+                     <p:submenu label="Administrar Trabajador">
+                        <p:menuitem value="Registrar" outcome="/Trabajador/Registrar"/>
+                        <p:menuitem value="Modificar" outcome="/Trabajador/Modificar"/>
+                     </p:submenu>                  
+                     <p:submenu label="Establecer Jornada">
+                        <p:menuitem value="Establecer Horas" outcome="/Trabajador/setHora"/>
+                        <p:menuitem value="Modificar Horas" />
+                     </p:submenu>
+                  </p:column>
+               </p:submenu>
+               <p:submenu label="Reportes">
+                  <p:column>
+                     <p:submenu label="">
+                        <p:menuitem value="Registrar" />
+                        <p:menuitem value="Modificar" />
+                        <p:menuitem value="Eliminar"/>
+                     </p:submenu>
+                  </p:column>
+               </p:submenu>
+            </p:megaMenu>
+         </h:form>
+      </div>
+      <div>
+         
+         <div id="content" class="right_content">
+            <ui:insert name="content"></ui:insert>
+         </div>
+      </div>
+      <div id="bottom">
+         <ui:insert name="bottom"></ui:insert>
+      </div>
+
+   </h:body>
+
+</html>

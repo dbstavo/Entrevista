@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+   <body>
+
+      <ui:composition template="./../layout/layoutTemplate.xhtml">
+
+         <ui:define name="top">
+
+         </ui:define>
+
+         <ui:define name="content">
+            <h:form id="EditDataTable">
+               <p:growl id="msgs" showDetail="true" />
+               <p:outputPanel id="empleados">  
+                  <p:dataTable  id="empleadosTable" value="#{EmpBean.empleados}" var="empleado"
+                                editable="true" >
+                     <f:facet name="header">
+                        Trabajadores
+                     </f:facet>
+                     <p:ajax event="rowEdit" listener="#{EmpBean.onRowEdit}" update=":EditDataTable:msgs" />
+                     <p:ajax event="rowEditCancel" listener="#{EmpBean.onRowCancel}" update=":EditDataTable:msgs" />
+
+                     <p:column headerText="Nombre"> 
+                        <p:cellEditor>
+                           <f:facet  name="output">  
+                              <h:outputText value="#{empleado.nombre}" />  
+                           </f:facet> 
+                           <f:facet name="input">
+                              <h:inputText value="#{empleado.nombre}" />
+                           </f:facet>
+                        </p:cellEditor>
+                     </p:column>  
+
+                     <p:column headerText="Apellido"> 
+                        <p:cellEditor>
+                           <f:facet  name="output">  
+                              <h:outputText value="#{empleado.apellido}" />  
+                           </f:facet> 
+
+                           <f:facet name="input">
+                              <h:inputText value="#{empleado.apellido}" />
+                           </f:facet>
+                        </p:cellEditor>
+                     </p:column>  
+
+                     <p:column headerText="Genero"> 
+                        <p:cellEditor>
+                           <f:facet  name="output">  
+                              <h:outputText value="#{empleado.sexo}" />  
+                           </f:facet> 
+                           <f:facet name="input">
+                              <p:selectOneMenu id="Genero" value="#{EmpBean.empleado.sexo}">
+                                 <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                                 <f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+                              </p:selectOneMenu>
+                           </f:facet>
+                        </p:cellEditor>
+                     </p:column>
+
+                     <p:column headerText="Puesto"> 
+                        <p:cellEditor>
+                           <f:facet  name="output">  
+                              <h:outputText value="#{empleado.tipoTrabajador}" />  
+                           </f:facet> 
+                           <f:facet name="input">
+                              <p:selectOneMenu id="Puesto" value="#{EmpBean.empleado.tipoTrabajador}">
+                                 <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                 <f:selectItem itemLabel="Administrativo" itemValue="Administrativo" />
+                                 <f:selectItem itemLabel="Supervisor" itemValue="Supervisor" />
+                                 <f:selectItem itemLabel="Obrero" itemValue="Obrero" />
+                              </p:selectOneMenu>
+                           </f:facet>
+                        </p:cellEditor>
+                     </p:column>
+
+                     <p:column headerText="Sueldo"> 
+                        <p:cellEditor>
+                           <f:facet  name="output">  
+                              <h:outputText value="#{empleado.salario}" />  
+                           </f:facet> 
+
+                           <f:facet name="input">
+                              <p:inputText id="Sueldo" value="#{empleado.salario}">
+                                 <p:ajax update="msgFloat" event="keyup" />
+                              </p:inputText>
+                              <p:message for="Sueldo" id="msgFloat" display="icon" />
+                           </f:facet>
+                        </p:cellEditor>
+                     </p:column>  
+
+                     <p:column headerText="Editar" style="width:50px">
+                        <p:rowEditor />
+                     </p:column>
+                     <p:column>  
+                        <f:facet name="header">  
+                           <h:outputText value="Borrar" />  
+                        </f:facet>
+                        <p:commandButton action="#{EmpBean.dialogoBorrar(empleado)}"
+                                         value="Borrar" update=":EditDataTable:msgs empleadosTable" >
+                           <p:confirm header="Confirmacion" message="¿Seguro de eliminarlo?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                           <p:commandButton value="Si"  
+                                            type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                           <p:commandButton value="No"  
+                                            type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+                     </p:column> 
+                  </p:dataTable>
+
+               </p:outputPanel>  
+            </h:form>
+         </ui:define>
+      </ui:composition>
+   </body>
+</html>
