@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+   <body>
+
+      <ui:composition template="./../layout/layoutTemplate.xhtml">
+
+         <ui:define name="top">
+           
+         </ui:define>
+
+         <ui:define name="content">
+            <h:form id="frmTime">
+               <p:growl id="grwl" showDetail="true" />
+
+               <h:panelGrid id="GridTime" columns="2" cellpadding="5">
+
+                  <p:outputLabel for="event" value="Fecha:" />
+                  <p:calendar id="event" value="#{sethoraBean.fecha.date}" showOn="button">
+                     <p:ajax event="dateSelect" listener="#{sethoraBean.onDateSelect}" update="grwl " />
+                  </p:calendar>
+                  
+                  <h:outputLabel value="Establecer Horas" />
+                  <p:inputText id="hora" value="#{sethoraBean.fecha.tiempo}" />
+                  <p:commandButton id="establecer"
+                                update="@parent" 
+                                actionListener="#{EmpBean.updateAction(sethoraBean.fecha.date,sethoraBean.fecha.tiempo)}" 
+                                value="Establecer"
+                                icon="ui-icon-check"
+                                />
+
+               </h:panelGrid>
+
+               <p:dataTable id="Seleccion" value="#{EmpBean.empleados}" var="empleado" 
+                            selectionMode="single" selection="#{EmpBean.empleado}" rowKey="#{empleado.nombre}">
+                  <f:facet name="header">
+                     Empleados
+                  </f:facet>
+                  <p:ajax event="rowSelect" listener="#{EmpBean.onRowSelect}" update=":frmTime:grwl" />
+                  <p:ajax event="rowUnselect" listener="#{EmpBean.onRowUnselect}" update=":frmTime:grwl" />
+                  <p:column headerText="Nombre">
+                     <h:outputText value="#{empleado.nombre}" />
+                  </p:column>
+                  <p:column headerText="Apellido">
+                     <h:outputText value="#{empleado.apellido}" />
+                  </p:column>
+                  <p:column headerText="Puesto">
+                     <h:outputText value="#{empleado.tipoTrabajador}" />
+                  </p:column>
+                   <p:column headerText="Horas">
+                      <h:outputText value="#{empleado.fecha.tiempo}" />
+                  </p:column>
+
+               </p:dataTable>
+
+            </h:form>
+         </ui:define>
+
+         <ui:define name="bottom">
+            
+         </ui:define>
+
+      </ui:composition>
+
+   </body>
+</html>
